@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/!svn/ver/7534/CUBS/cancerseq_scripts/modules/SubmitterBot
+END
+MANIFEST
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/!svn/ver/7534/CUBS/cancerseq_scripts/modules/SubmitterBot/MANIFEST
+END
+pm_to_blib
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/!svn/ver/7534/CUBS/cancerseq_scripts/modules/SubmitterBot/pm_to_blib
+END
+Makefile.PL
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/!svn/ver/7534/CUBS/cancerseq_scripts/modules/SubmitterBot/Makefile.PL
+END
+Changes
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/!svn/ver/7534/CUBS/cancerseq_scripts/modules/SubmitterBot/Changes
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/!svn/ver/7534/CUBS/cancerseq_scripts/modules/SubmitterBot/Makefile
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/!svn/ver/7534/CUBS/cancerseq_scripts/modules/SubmitterBot/README
+END
