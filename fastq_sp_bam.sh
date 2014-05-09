@@ -30,7 +30,7 @@ SEQPREP="/lustre/beagle/jgrundst/TOOLS/seqprep/SeqPrep"
 PICARD_TEMP="$SAMPLE.picard_temp"
 
 # Clip adapters, merge overlapping paired ends into third, single-end file
-$SEQPREP -f $FQ1 -r $FQ2 -1 $FQC1 -2 $FQC2 -s $ME >& $SAMPLE.sp.log
+$SEQPREP -f $FQ1 -r $FQ2 -1 $FQC1 -2 $FQC2 -s $ME > $SAMPLE.sp.log 2>&1
 
 # required for picard ops
 mkdir -p $PICARD_TEMP
@@ -51,4 +51,4 @@ java -Xmx2g -jar $PICARD_DIR/MergeSamFiles.jar TMP_DIR=$PICARD_TEMP INPUT=$SP_CL
 
 # cleanup
 rm -rf $SAMPLE.picard_temp
-# rm $FQ1 $FQ2 $FQC1 $FQC2 $ME $SP_CLIP_BAM $SP_ME_BAM
+rm $FQ1 $FQ2 $FQC1 $FQC2 $ME $SP_CLIP_BAM $SP_ME_BAM
