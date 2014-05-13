@@ -1,7 +1,7 @@
 #!/bin/bash
 # Jason Grundstad
 # 05/08/2014
-# Pass raw paired-end fastq data through SeqPrep, and convert output to single, unaligned BAM
+# Pass 2 raw paired-end fastq data files through SeqPrep, and convert output to single, unaligned BAM
 # 
 
 # Input
@@ -51,4 +51,7 @@ java -Xmx2g -jar $PICARD_DIR/MergeSamFiles.jar TMP_DIR=$PICARD_TEMP INPUT=$SP_CL
 
 # cleanup
 rm -rf $SAMPLE.picard_temp
-#rm $FQ1 $FQ2 $FQC1 $FQC2 $ME $SP_CLIP_BAM $SP_ME_BAM
+rm $FQ1 $FQ2 $FQC1 $FQC2 $ME $SP_CLIP_BAM $SP_ME_BAM
+
+# fix mode
+chmod 644 $ID*
