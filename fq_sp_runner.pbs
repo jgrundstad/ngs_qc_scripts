@@ -12,7 +12,10 @@
 #PBS -l mppwidth=24
 #PBS -l walltime=24:00:00
 #PBS -q batch
-#PBS -l advres=cga.2498
+#PBS -l advres=cga.2538
+#PBS -o pbs_logs/
+
+mkdir -p pbs_logs
 
 ### Display job characteristics
 ###############################
