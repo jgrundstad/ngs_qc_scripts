@@ -113,7 +113,7 @@ $bot->jobs(\@seqprep_cmds);
 $bot->submit_jobs();
 
 
-# Align the singular reads
+# Index the paired end reads
 my @bwa_cmds = ();
 $i = 0;
 foreach my $sample (keys %SAMPLES) {
@@ -122,14 +122,14 @@ foreach my $sample (keys %SAMPLES) {
 		my $script = "scripts/$j.bwa.$i.sh";
 		`echo \"hostname\ncd $PBS_O_WORKDIR\n\" > $script`;
 
-		# Foreach sequence end Run bwa alignment on clipped reads
+		# Foreach sequence end Run bwa aln on clipped reads
 		`echo \"$bwa aln -q 15 -t 8 -f $file.clip.sai $ref_fa $file.clip.fq.gz > $sample.aln.$i.log 2>&1\" >> $script`;
 		my $bwa_cmd = "qsub $bwa_qsub_args $script";
 		push @bwa_cmds, $bwa_cmd;
     }
 }
 $j++;
-$bot->batch('align_clipped');
+$bot->batch('index_clipped');
 $bot->max_jobs($max_nodes);
 $bot->jobs(\@bwa_cmds);
 $bot->submit_jobs();
