@@ -7,6 +7,17 @@
 #-------CALL-------
 #fastq2bam.sh -s /lustre/beagle/jgrundst/... -1 fq1 -2 fq2
 
+function helptext {
+  echo "-s	/path/to/SeqPrep <optional>"
+  echo "-1	fastq #1"
+  echo "-2	fastq #2"
+  echo "-m	Perform SeqPrep's read merging functionality"
+  echo "-h	this help message"
+  exit 0
+}
+
+[[ $# -gt 0 ]] || { helptext; }
+
 while getopts “s:1:2:mh” opt; do
   case $opt in
     1)
@@ -21,13 +32,7 @@ while getopts “s:1:2:mh” opt; do
 	m)
 	  MERGE=1
 	  ;;
-	h)
-	  echo "-s	/path/to/SeqPrep <optional>"
-	  echo "-1	fastq #1"
-	  echo "-2	fastq #2"
-	  echo "-m	Perform SeqPrep's read merging functionality"
-	  echo "-h	this help message"
-	  exit 0
+	h) helptext >&2
 	  ;;
     \?)
       echo “Invalid option specified.”
