@@ -5,30 +5,46 @@ function helptext {
   echo "-b  input .bam"
   echo "-t  max non-zero coverage to keep as \"low_coverage.bed\" output"
   echo "-r  reference .bed"
-  echo "-h  this message"
   echo ""
   exit 0
 }
 
 [[ $# -gt 0 ]] || { helptext; }
 
-while getopts "b:r:h" opt; do
-	case $opt in
-		b)
-		  BAMFILE=$OPTARG
-		  FILENAME=$(basename $BAMFILE)
-		  ;;
-		r)
-		  REF_BED=$OPTARG
-		  ;;
-		h)
-		  helptext >&2
-		  ;;
-		\?)
-		  echo "Invalid option specified."
-		  exit 1;
-		  ;;
+while getopts "b:r:t:" OPTION; 
+do
+	case $OPTION in
+	b)
+	  BAMFILE=$OPTARG
+	  ;;
+	r)
+	  REF_BED=$OPTARG
+	  ;;
+	t)
+	  THRESHOLD=$OPTARG
+	  ;;
+	\?)
+	  echo "Invalid option specified."
+	  exit 1;
+	  ;;
 	esac
 done
 
-genomeCoverageBed -bga -ibam $BAM -g $REF_BED | awk "{if(\$4==0) {print > \""$FILENAME.zero_coverage.bed"\";} else if(\$4<=7) {print > \""$FILENAME.low_coverage.bed"\";}}"
+FILENAME=$(basename $BAMFILE)
+
+function splitter {
+    while read data; do
+		LINE=$data
+		COV=$(echo $data | cut -d " " -f4)
+		echo $COV
+		if [ $COV -eq 0 ]
+		then
+			echo $LINE >> $FILE.zero_coverage.bed;
+		elif [ $COV -le $THRESHOLD ]
+		then
+			echo $LINE >> $FILE.low_coverage.bed;
+		fi;
+	done;
+}
+genomeCoverageBed -bga -ibam $BAMFILE -g $REF_BED | splitter
+#genomeCoverageBed -bga -ibam $BAMFILE -g $REF_BED | awk "{if(\$4==0) {print > \""$FILENAME.zero_coverage.bed"\";} else if(\$4<=\$THRESHOLD) {print > \""$FILENAME.low_coverage.bed"\";}}"
