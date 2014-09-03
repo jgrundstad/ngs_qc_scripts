@@ -36,15 +36,18 @@ function splitter {
     while read data; do
 		LINE=$data
 		COV=$(echo $data | cut -d " " -f4)
-		echo $COV
+		#echo $COV
 		if [ $COV -eq 0 ]
 		then
-			echo $LINE >> $FILE.zero_coverage.bed;
+			echo $LINE >> $FILENAME.zero_coverage.bed;
 		elif [ $COV -le $THRESHOLD ]
 		then
-			echo $LINE >> $FILE.low_coverage.bed;
+			echo $LINE >> $FILENAME.low_coverage.bed;
 		fi;
 	done;
 }
+
 genomeCoverageBed -bga -ibam $BAMFILE -g $REF_BED | splitter
+
+# awk stores too much in RAM... 
 #genomeCoverageBed -bga -ibam $BAMFILE -g $REF_BED | awk "{if(\$4==0) {print > \""$FILENAME.zero_coverage.bed"\";} else if(\$4<=\$THRESHOLD) {print > \""$FILENAME.low_coverage.bed"\";}}"
