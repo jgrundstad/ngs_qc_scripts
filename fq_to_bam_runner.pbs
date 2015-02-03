@@ -1,0 +1,56 @@
+#!/bin/bash
+. /opt/modules/default/init/bash
+
+### pittjj 10 process xargs runner
+
+### Specify PBS arguments
+#########################
+#PBS -A CI-MCB000145
+#PBS -N $PBS_JOBNAME
+#PBS -j oe
+#PBS -M jgrundstad@uchicago.edu
+#PBS -l mppwidth=24
+#PBS -l walltime=36:00:00
+#PBS -q batch
+##PBS -l advres=cga.2843
+#PBS -o pbs_logs/
+
+mkdir -p pbs_logs
+
+### Display job characteristics
+###############################
+cd $PBS_O_WORKDIR
+echo Working directory is $PBS_O_WORKDIR
+
+### Calculate the number of processors allocated to this run.
+NPROCS=`wc -l < $PBS_NODEFILE`
+
+### Calculate the number of nodes allocated.
+NNODES=`uniq $PBS_NODEFILE | wc -l`
+
+### Display the job context
+echo Running on host `hostname`
+echo Time is `date`
+echo Directory is `pwd`
+echo Using ${NPROCS} processors across ${NNODES} nodes
+
+### Exexcute job commands
+#########################
+module load scipy
+module load samtools
+module load numpy
+module load python/2.7.3-vanilla
+export PYTHONPATH=PYTHONPATH:/soft/python/2.7/2.7.3-vanilla/modules/pysam/0.7.4/lib/python2.7/site-packages/
+export PYTHONPATH=$PYTHONPATH:/soft/python/2.7/2.7.3-vanilla/modules/numpy/1.7.0/lib/python2.7/site-packages/
+export PYTHONPATH=$PYTHONPATH:/soft/python/2.7/2.7.3-vanilla/modules/scipy/0.12.0/lib/python2.7/site-packages
+echo $PYTHONPATH
+#export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/soft/python/2.7/2.7.3-vanilla/python/lib
+echo $LD_LIBRARY_PATH
+#module load picard/1.72
+#module load java
+module swap PrgEnv-cray PrgEnv-gnu
+module load samtools
+
+#aprun -n 1 -d 24 cat $arg1 | xargs -P 8 -n 1 -iCMD bash -c CMD
+#aprun -n 1 -d 24 /lustre/beagle/pittjj/xargs_10p.sh $arg1
+aprun -n 1 -d 24 /lustre/beagle/jgrundst/src/ngs_qc_scripts/submit_fq_to_bam.sh $arg1
