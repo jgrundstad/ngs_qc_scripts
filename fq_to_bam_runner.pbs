@@ -9,10 +9,10 @@
 #PBS -N $PBS_JOBNAME
 #PBS -j oe
 #PBS -M jgrundstad@uchicago.edu
-#PBS -l mppwidth=24
+#PBS -l mppwidth=32
 #PBS -l walltime=36:00:00
 #PBS -q batch
-##PBS -l advres=cga.2843
+##PBS -l advres=cga.2849
 #PBS -o pbs_logs/
 
 mkdir -p pbs_logs
@@ -53,4 +53,4 @@ module load samtools
 
 #aprun -n 1 -d 24 cat $arg1 | xargs -P 8 -n 1 -iCMD bash -c CMD
 #aprun -n 1 -d 24 /lustre/beagle/pittjj/xargs_10p.sh $arg1
-aprun -n 1 -d 24 /lustre/beagle/jgrundst/src/ngs_qc_scripts/submit_fq_to_bam.sh $arg1
+aprun -n 1 -d 32 /lustre/beagle/jgrundst/src/ngs_qc_scripts/submit_fq_to_bam.sh $arg1
